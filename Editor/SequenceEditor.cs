@@ -16,7 +16,7 @@ namespace DI_Sequences
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             var container = new VisualElement();
-            Debug.Log("propfield: " + (propField == null));
+            Debug.Log("propfield");
 
             var propField = new PropertyField(property.FindPropertyRelative("actions"));
             Debug.Log("propfield: " + (propField == null));
