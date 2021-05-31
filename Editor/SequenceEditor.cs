@@ -13,15 +13,14 @@ namespace DI_Sequences
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            base.OnGUI(position, property, label);
-            
-            
+            EditorGUI.BeginProperty(position, label, property);
+
+            var prop = property.FindPropertyRelative("actions");
+            EditorGUI.PropertyField(new Rect(position.x, position.y, position.width - 30, position.height), prop);
+
             var type = (Sequence.ActionType)EditorGUILayout.EnumPopup("Create Sequence: ", Sequence.ActionType.SelectType);
             if (type != Sequence.ActionType.SelectType)
-            {
-                //The name of the list, List<IAction> actions
-                var prop = property.FindPropertyRelative("actions");
-
+            {                
                 switch (type)
                 {
                     case Sequence.ActionType.SelectType:
@@ -34,6 +33,8 @@ namespace DI_Sequences
                         break;
                 }
             }
+
+            EditorGUI.EndProperty();
         }
     }
 }
