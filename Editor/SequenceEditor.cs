@@ -19,8 +19,9 @@ namespace DI_Sequences
 
             SerializedProperty prop = property.FindPropertyRelative("actions");
 
-            Rect propRect = new Rect(position.x, position.y, position.width, position.height);
-            Rect enumRect = new Rect(position.x, position.y - 30, position.width, position.height);
+            float propHeight = EditorGUI.GetPropertyHeight(prop);
+            Rect propRect = new Rect(position.x, position.y, position.width, propHeight);
+            Rect enumRect = new Rect(position.x, position.y - propHeight - EditorGUIUtility.singleLineHeight - EditorGUIUtility.standardVerticalSpacing, position.width, 50);
 
             EditorGUI.PropertyField(propRect, prop);
 
