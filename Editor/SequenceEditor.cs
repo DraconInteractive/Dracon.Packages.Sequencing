@@ -15,9 +15,7 @@ namespace DI_Sequences
         {
             EditorGUI.BeginProperty(position, label, property);
 
-            SerializedObject propObj = new SerializedObject(property.objectReferenceValue);
-
-            SerializedProperty prop = propObj.FindProperty("actions");
+            SerializedProperty prop = property.FindPropertyRelative("actions");
 
             EditorGUI.PropertyField(new Rect(position.x, position.y, position.width - 30, position.height), prop);
 
@@ -40,4 +38,6 @@ namespace DI_Sequences
             EditorGUI.EndProperty();
         }
     }
+
+
 }
