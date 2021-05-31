@@ -1,0 +1,14 @@
+{
+  "name": "com.dracon.sequencing",
+  "displayName": "Dracon Sequencing",
+  "version": "0.0.1",
+  "unity": "2019.1",
+  "description": "Sequenced actions system for timed actions and objectives",
+  "keywords": [
+    "sequences",
+    "tool",
+    "level",
+    "unity"
+  ],
+  "category": "Unity"
+}
