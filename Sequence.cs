@@ -6,6 +6,12 @@ namespace DI_Sequences
 {
     public class Sequence : MonoBehaviour
     {
+        public enum ActionType
+        {
+            SelectType,
+            Debug,
+            MoveTransform
+        }
         public bool running;
         [SerializeField] public List<IAction> actions = new List<IAction>();
     }
