@@ -6,6 +6,8 @@ using UnityEngine;
 
 namespace DI_Sequences
 {
+    //var allTypes = Enum.GetValues(typeof(Sequence.ActionType));
+ //string[] allTypeNames = Enum.GetNames(typeof(Sequence.ActionType));
     [CustomPropertyDrawer(typeof(Sequence))]
     public class SequenceDrawer : PropertyDrawer
     {
@@ -13,8 +15,7 @@ namespace DI_Sequences
         {
             base.OnGUI(position, property, label);
             
-            //var allTypes = Enum.GetValues(typeof(Sequence.ActionType));
-            //string[] allTypeNames = Enum.GetNames(typeof(Sequence.ActionType));
+            
             var type = (Sequence.ActionType)EditorGUILayout.EnumPopup("Create Sequence: ", Sequence.ActionType.SelectType);
             if (type != Sequence.ActionType.SelectType)
             {

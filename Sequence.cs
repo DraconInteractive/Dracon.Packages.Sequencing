@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace DI_Sequences
 {
+    [Serializable]
     public class Sequence : MonoBehaviour
     {
         public enum ActionType
