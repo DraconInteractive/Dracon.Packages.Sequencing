@@ -19,9 +19,12 @@ namespace DI_Sequences
 
             SerializedProperty prop = property.FindPropertyRelative("actions");
 
-            EditorGUI.PropertyField(new Rect(position.x, position.y, position.width - 30, position.height), prop);
+            Rect propRect = new Rect(position.x, position.y, position.width, position.height);
+            Rect enumRect = new Rect(position.x, position.y - 30, position.width, position.height);
 
-            var type = (Sequence.ActionType)EditorGUILayout.EnumPopup("Create Sequence: ", Sequence.ActionType.SelectType);
+            EditorGUI.PropertyField(propRect, prop);
+
+            var type = (Sequence.ActionType)EditorGUI.EnumPopup(enumRect, "Create Sequence: ", Sequence.ActionType.SelectType);
             if (type != Sequence.ActionType.SelectType)
             {                
                 switch (type)
