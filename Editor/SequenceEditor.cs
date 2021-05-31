@@ -7,9 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace DI_Sequences
-{
-    //var allTypes = Enum.GetValues(typeof(Sequence.ActionType));
- //string[] allTypeNames = Enum.GetNames(typeof(Sequence.ActionType));
+{ 
     [CustomPropertyDrawer(typeof(Sequence))]
     public class SequenceDrawer : PropertyDrawer
     {
@@ -19,29 +17,39 @@ namespace DI_Sequences
 
             SerializedProperty prop = property.FindPropertyRelative("actions");
 
-            float propHeight = EditorGUI.GetPropertyHeight(prop);
+            float propHeight = EditorGUI.GetPropertyHeight(prop, true);
             Rect propRect = new Rect(position.x, position.y, position.width, propHeight);
-            Rect enumRect = new Rect(position.x, position.y - propHeight - EditorGUIUtility.singleLineHeight - EditorGUIUtility.standardVerticalSpacing, position.width, 50);
+            
+            EditorGUI.PropertyField(propRect, prop, true);
+            if (prop.isExpanded)
+            {
+                Rect enumRect = new Rect(position.x, position.y + propHeight + EditorGUIUtility.standardVerticalSpacing, position.width, 50);
 
-            EditorGUI.PropertyField(propRect, prop);
-
-            var type = (Sequence.ActionType)EditorGUI.EnumPopup(enumRect, "Create Sequence: ", Sequence.ActionType.SelectType);
-            if (type != Sequence.ActionType.SelectType)
-            {                
-                switch (type)
+                var type = (Sequence.ActionType)EditorGUI.EnumPopup(enumRect, "Create Sequence: ", Sequence.ActionType.SelectType);
+                if (type != Sequence.ActionType.SelectType)
                 {
-                    case Sequence.ActionType.SelectType:
-                        break;
-                    case Sequence.ActionType.Debug:
-                        SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
-                        newAction.managedReferenceValue = new DebugAction();
-                        break;
-                    case Sequence.ActionType.MoveTransform:
-                        break;
+                    switch (type)
+                    {
+                        case Sequence.ActionType.SelectType:
+                            break;
+                        case Sequence.ActionType.Debug:
+                            SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
+                            newAction.managedReferenceValue = new DebugAction();
+                            break;
+                        case Sequence.ActionType.MoveTransform:
+                            break;
+                    }
                 }
             }
 
             EditorGUI.EndProperty();
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            SerializedProperty prop = property.FindPropertyRelative("actions");
+
+            return EditorGUI.GetPropertyHeight(prop, true) + EditorGUIUtility.standardVerticalSpacing + (prop.isExpanded ? EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing : 0);
         }
     }
 }
