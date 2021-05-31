@@ -13,17 +13,6 @@ namespace DI_Sequences
     [CustomPropertyDrawer(typeof(Sequence))]
     public class SequenceDrawer : PropertyDrawer
     {
-        public override VisualElement CreatePropertyGUI(SerializedProperty property)
-        {
-            var container = new VisualElement();
-            Debug.Log("propfield");
-
-            var propField = new PropertyField(property.FindPropertyRelative("actions"));
-            Debug.Log("propfield: " + (propField == null));
-            container.Add(propField);
-            return container;
-        }
-        /*
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
@@ -49,8 +38,6 @@ namespace DI_Sequences
             }
 
             EditorGUI.EndProperty();
-        }*/
+        }
     }
-
-
 }

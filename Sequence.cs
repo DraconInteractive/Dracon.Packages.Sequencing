@@ -14,7 +14,7 @@ namespace DI_Sequences
             MoveTransform
         }
         public bool running;
-        [SerializeField] private List<IAction> actions = new List<IAction>();
+        [SerializeReference] public List<IAction> actions = new List<IAction>();
     }
 
     public interface IAction
