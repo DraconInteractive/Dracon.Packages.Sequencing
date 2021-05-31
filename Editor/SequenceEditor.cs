@@ -18,7 +18,7 @@ namespace DI_Sequences
             var container = new VisualElement();
 
             var propField = new PropertyField(property.FindPropertyRelative("actions"));
-
+            Debug.Log("propfield: " + (propField == null));
             container.Add(propField);
             return container;
         }
