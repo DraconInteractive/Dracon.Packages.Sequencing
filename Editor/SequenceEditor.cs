@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace DI_Sequences
 {
@@ -11,6 +13,16 @@ namespace DI_Sequences
     [CustomPropertyDrawer(typeof(Sequence))]
     public class SequenceDrawer : PropertyDrawer
     {
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            var container = new VisualElement();
+
+            var propField = new PropertyField(property.FindPropertyRelative("actions"));
+
+            container.Add(propField);
+            return container;
+        }
+        /*
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
@@ -36,7 +48,7 @@ namespace DI_Sequences
             }
 
             EditorGUI.EndProperty();
-        }
+        }*/
     }
 
 
