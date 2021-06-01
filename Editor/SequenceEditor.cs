@@ -40,6 +40,9 @@ namespace DI_Sequences
                         case Sequence.ActionType.WaitDuration:
                             newAction.managedReferenceValue = new WaitDurationAction();
                             break;
+                        case Sequence.ActionType.TransferStage:
+                            newAction.managedReferenceValue = new TransferStageAction();
+                            break;
                     }
                 }
             }

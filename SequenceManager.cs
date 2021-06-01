@@ -6,12 +6,14 @@ using UnityEngine;
 
 namespace DI_Sequences
 {
-    class SequenceManager : MonoBehaviour
+    public class SequenceManager : MonoBehaviour
     {
         public static List<SequenceManager> All = new List<SequenceManager>();
 
         public List<Sequence> sequences = new List<Sequence>();
 
+        [Space(30)]
+        public bool playOnAwake;
         public int currentIndex;
         Coroutine sequenceRoutine;
 
@@ -23,6 +25,11 @@ namespace DI_Sequences
         void OnDisable ()
         {
             All.Remove(this);
+        }
+
+        void Awake ()
+        {
+            StartStage();
         }
 
         public void StartStage ()
@@ -40,6 +47,14 @@ namespace DI_Sequences
             sequenceRoutine = StartCoroutine(RunSequence(sequences[currentIndex]));
         }
 
+        public void StopSequence ()
+        {
+            if (sequenceRoutine != null)
+            {
+                StopCoroutine(sequenceRoutine);
+            }
+        }
+
         IEnumerator RunSequence (Sequence sequence)
         {
             foreach (var action in sequence.actions)
@@ -53,5 +68,6 @@ namespace DI_Sequences
             }
             yield break;
         }
+
     }
 }

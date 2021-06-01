@@ -13,7 +13,8 @@ namespace DI_Sequences
             SelectType,
             Debug,
             MoveTransform,
-            WaitDuration
+            WaitDuration,
+            TransferStage
         }
         
         [SerializeReference] public List<SequenceAction> actions = new List<SequenceAction>();
@@ -124,6 +125,25 @@ namespace DI_Sequences
             yield return new WaitForSeconds(duration);
             Complete();
             yield break;
+        }
+    }
+
+    [Serializable]
+    public class TransferStageAction : SequenceAction
+    {
+        public SequenceManager oldStage;
+        public SequenceManager newStage;
+
+        public TransferStageAction ()
+        {
+            name = "Transfer Stage";
+        }
+
+        public override void Run()
+        {
+            oldStage.StopSequence();
+            newStage.StartStage();
+            Complete();
         }
     }
 }
