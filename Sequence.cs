@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,66 +12,118 @@ namespace DI_Sequences
         {
             SelectType,
             Debug,
-            MoveTransform
+            MoveTransform,
+            WaitDuration
         }
-        public bool running;
-        [SerializeReference] public List<IAction> actions = new List<IAction>();
+        
+        [SerializeReference] public List<SequenceAction> actions = new List<SequenceAction>();
+
+        public bool Running
+        {
+            get
+            {
+                foreach (var action in actions)
+                {
+                    if (action.running)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
     }
 
-    public interface IAction
-    {
-        void Begin();
-        void Complete();
-    }
-
-    [Serializable]
-    public class DebugAction : IAction
+    public class SequenceAction
     {
         [HideInInspector]
         public string name;
         public bool running;
 
+        public virtual void Begin()
+        {
+            running = true;
+            Run();
+        }
+
+        public virtual void Run ()
+        {
+            Complete();
+        }
+
+        public virtual void Complete ()
+        {
+            running = false;
+        }
+    }
+
+    [Serializable]
+    public class DebugAction : SequenceAction
+    {
         public string message;
 
         public DebugAction()
         {
-            name = "Debug Action";
+            name = "Debug";
         }
 
-        public void Begin()
+        public override void Run()
         {
-            throw new NotImplementedException();
-        }
-
-        public void Complete()
-        {
-            throw new NotImplementedException();
+            Debug.Log(message);
+            Complete();
         }
     }
 
     [Serializable]
-    public class MoveTransformAction : IAction
+    public class MoveTransformAction : SequenceAction
     {
-        [HideInInspector]
-        public string name;
-        public bool running;
-
         public Transform target;
         public Transform endPosition;
+        public float duration;
 
         public MoveTransformAction()
         {
-            name = "Move Transform Action";
+            name = "Move Transform";
         }
 
-        public void Begin()
+        public override void Run()
         {
-            throw new NotImplementedException();
+            SequenceManager.All[0].StartCoroutine(Move());
         }
 
-        public void Complete()
+        public IEnumerator Move ()
         {
-            throw new NotImplementedException();
+            Vector3 start = target.position;
+            for (float f = 0; f < 1; f += Time.deltaTime / duration)
+            {
+                target.position = Vector3.Lerp(start, endPosition.position, f);
+                yield return null;
+            }
+            Complete();
+            yield break;
+        }
+    }
+
+    [Serializable]
+    public class WaitDurationAction : SequenceAction
+    {
+        public float duration;
+        public WaitDurationAction()
+        {
+            name = "Wait Duration";
+        }
+
+        public override void Run()
+        {
+            SequenceManager.All[0].StartCoroutine(Wait());
+        }
+
+        public IEnumerator Wait()
+        {
+            yield return new WaitForSeconds(duration);
+            Complete();
+            yield break;
         }
     }
 }

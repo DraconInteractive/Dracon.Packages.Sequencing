@@ -28,15 +28,17 @@ namespace DI_Sequences
                 var type = (Sequence.ActionType)EditorGUI.EnumPopup(enumRect, "Create Sequence: ", Sequence.ActionType.SelectType);
                 if (type != Sequence.ActionType.SelectType)
                 {
+                    SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
                     switch (type)
                     {
-                        case Sequence.ActionType.SelectType:
-                            break;
                         case Sequence.ActionType.Debug:
-                            SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
                             newAction.managedReferenceValue = new DebugAction();
                             break;
                         case Sequence.ActionType.MoveTransform:
+                            newAction.managedReferenceValue = new MoveTransformAction();
+                            break;
+                        case Sequence.ActionType.WaitDuration:
+                            newAction.managedReferenceValue = new WaitDurationAction();
                             break;
                     }
                 }
