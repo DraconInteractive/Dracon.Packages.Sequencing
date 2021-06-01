@@ -34,7 +34,7 @@ namespace DI_Sequences
             }
         }
     }
-
+    [Serializable]
     public class SequenceAction
     {
         [HideInInspector]
