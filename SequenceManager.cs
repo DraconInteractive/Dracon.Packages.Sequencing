@@ -27,7 +27,7 @@ namespace DI_Sequences
             All.Remove(this);
         }
 
-        void Awake ()
+        void Start ()
         {
             StartStage();
         }
