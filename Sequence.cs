@@ -101,6 +101,7 @@ namespace DI_Sequences
                 target.position = Vector3.Lerp(start, endPosition.position, f);
                 yield return null;
             }
+            target.position = endPosition.position;
             Complete();
             yield break;
         }
