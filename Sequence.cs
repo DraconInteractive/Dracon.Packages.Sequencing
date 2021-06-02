@@ -82,6 +82,7 @@ namespace DI_Sequences
         public Transform target;
         public Transform endPosition;
         public float duration;
+        public bool instant;
 
         public MoveTransformAction()
         {
@@ -90,7 +91,15 @@ namespace DI_Sequences
 
         public override void Run()
         {
-            SequenceManager.All[0].StartCoroutine(Move());
+            if (instant)
+            {
+                target.position = endPosition.position;
+                Complete();
+            }
+            else
+            {
+                SequenceManager.All[0].StartCoroutine(Move());
+            }
         }
 
         public IEnumerator Move ()
