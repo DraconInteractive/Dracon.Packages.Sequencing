@@ -44,7 +44,7 @@ namespace DI_Sequences
                 StopCoroutine(sequenceRoutine);
             }
 
-            if (sequences.Count < index)
+            if (sequences.Count < index + 1)
             {
                 return;
             }
