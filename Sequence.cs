@@ -13,6 +13,7 @@ namespace DI_Sequences
             SelectType,
             Debug,
             MoveTransform,
+            ScaleTransform,
             WaitDuration,
             TransferStage
         }
@@ -111,6 +112,46 @@ namespace DI_Sequences
                 yield return null;
             }
             target.position = endPosition.position;
+            Complete();
+            yield break;
+        }
+    }
+
+    [Serializable]
+    public class ScaleTransformAction : SequenceAction
+    {
+        public Transform target;
+        public Vector3 newScale;
+        public float duration;
+        public bool instant;
+
+        public ScaleTransformAction ()
+        {
+            name = "Scale Transform";
+        }
+
+        public override void Run()
+        {
+            if (instant)
+            {
+                target.localScale = newScale;
+                Complete();
+            }
+            else
+            {
+                SequenceManager.All[0].StartCoroutine(Scale());
+            }
+        }
+
+        public IEnumerator Scale ()
+        {
+            Vector3 start = target.localScale;
+            for (float f = 0; f < 1; f += Time.deltaTime / duration)
+            {
+                target.localScale = Vector3.Lerp(start, newScale, f);
+                yield return null;
+            }
+            target.localScale = newScale;
             Complete();
             yield break;
         }

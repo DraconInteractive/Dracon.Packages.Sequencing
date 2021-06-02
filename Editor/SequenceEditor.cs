@@ -37,6 +37,9 @@ namespace DI_Sequences
                         case Sequence.ActionType.MoveTransform:
                             newAction.managedReferenceValue = new MoveTransformAction();
                             break;
+                        case Sequence.ActionType.ScaleTransform:
+                            newAction.managedReferenceValue = new ScaleTransformAction();
+                            break;
                         case Sequence.ActionType.WaitDuration:
                             newAction.managedReferenceValue = new WaitDurationAction();
                             break;
