@@ -43,6 +43,11 @@ namespace DI_Sequences
             {
                 StopCoroutine(sequenceRoutine);
             }
+
+            if (sequences.Count < currentIndex - 1)
+            {
+                return;
+            }
             currentIndex = index;
             sequenceRoutine = StartCoroutine(RunSequence(sequences[currentIndex]));
         }
@@ -66,6 +71,9 @@ namespace DI_Sequences
             {
                 yield return null;
             }
+
+            currentIndex++;
+            StartSequence(currentIndex);
             yield break;
         }
 
