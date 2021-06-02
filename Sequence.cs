@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace DI_Sequences
 {
@@ -15,7 +16,8 @@ namespace DI_Sequences
             MoveTransform,
             ScaleTransform,
             WaitDuration,
-            TransferStage
+            TransferStage,
+            UnityEvent
         }
         
         [SerializeReference] public List<SequenceAction> actions = new List<SequenceAction>();
@@ -194,6 +196,23 @@ namespace DI_Sequences
         {
             oldStage.StopSequence();
             newStage.StartStage();
+            Complete();
+        }
+    }
+
+    [Serializable]
+    public class UnityEventAction : SequenceAction
+    {
+        public UnityEvent uEvent;
+
+        public UnityEventAction ()
+        {
+            name = "Unity Event";
+        }
+
+        public override void Run()
+        {
+            uEvent?.Invoke();
             Complete();
         }
     }
