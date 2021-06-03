@@ -38,7 +38,7 @@ namespace DI_Sequences
                         SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
                         Type t = Type.GetType(x);
                         Debug.Log("Type Found: " + t.ToString());
-                        newAction.managedReferenceValue = Activator.CreateInstance(t);
+                        newAction.managedReferenceValue = new DebugAction();
                     });
                     dropdown.Show(selectionRect);
                 }  
