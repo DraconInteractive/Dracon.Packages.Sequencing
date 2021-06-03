@@ -33,13 +33,10 @@ namespace DI_Sequences
                     var dropdown = new ActionsDropdown(new AdvancedDropdownState());
                     dropdown.onSelected += (x =>
                     {
-                        Debug.Log("Item Name: " + x);
-                        Debug.Log("Expanding Prop");
-                        SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
-                        Type t = Type.GetType(x);
-                        Debug.Log("Type Found: " + t.ToString());
-                        newAction.managedReferenceValue = new DebugAction();
                     });
+                    SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
+                    //Type t = Type.GetType(x);
+                    newAction.managedReferenceValue = new DebugAction();
                     dropdown.Show(selectionRect);
                 }  
             }
