@@ -54,7 +54,7 @@ namespace DI_Sequences
                 {
                     Debug.LogError($"Type creation attempt from {s} resulted in null type.");
                     newAction.managedReferenceValue = new SequenceAction();
-                    return;
+                    continue;
                 }
                 newAction.managedReferenceValue = Activator.CreateInstance(t);
             }
