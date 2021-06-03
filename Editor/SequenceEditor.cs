@@ -50,6 +50,12 @@ namespace DI_Sequences
             {
                 SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
                 Type t = Type.GetType(s);
+                if (t == null)
+                {
+                    Debug.LogError($"Type creation attempt from {s} resulted in null type.");
+                    newAction.managedReferenceValue = new SequenceAction();
+                    return;
+                }
                 newAction.managedReferenceValue = Activator.CreateInstance(t);
             }
             toAdd.Clear();
