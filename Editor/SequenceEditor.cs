@@ -28,9 +28,10 @@ namespace DI_Sequences
             {
                 Rect selectionRect = new Rect(position.x, position.y + propHeight + EditorGUIUtility.standardVerticalSpacing, position.width, 50);
 
-                if (GUI.Button(selectionRect, new GUIContent("Show"), EditorStyles.toolbarButton))
+                if (GUI.Button(selectionRect, new GUIContent("Add Sequence"), EditorStyles.toolbarButton))
                 {
                     var dropdown = new ActionsDropdown(new AdvancedDropdownState());
+                    dropdown.prop = prop;
                     dropdown.Show(selectionRect);
                 }  
             }
