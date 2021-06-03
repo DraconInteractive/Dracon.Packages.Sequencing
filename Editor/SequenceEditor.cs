@@ -33,8 +33,11 @@ namespace DI_Sequences
                     var dropdown = new ActionsDropdown(new AdvancedDropdownState());
                     dropdown.onSelected += (x =>
                     {
+                        Debug.Log("Item Name: " + x);
+                        Debug.Log("Expanding Prop");
                         SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
                         Type t = Type.GetType(x);
+                        Debug.Log("Type Found: " + t.ToString());
                         newAction.managedReferenceValue = Activator.CreateInstance(t);
                     });
                     dropdown.Show(selectionRect);
@@ -73,9 +76,6 @@ namespace DI_Sequences
             protected override void ItemSelected(AdvancedDropdownItem item)
             {
                 base.ItemSelected(item);
-
-                Debug.Log("Selected " + item.name);
-                Debug.Log("ID: " + item.id);
 
                 onSelected?.Invoke(item.name);
             }
