@@ -31,7 +31,12 @@ namespace DI_Sequences
                 if (GUI.Button(selectionRect, new GUIContent("Add Sequence"), EditorStyles.toolbarButton))
                 {
                     var dropdown = new ActionsDropdown(new AdvancedDropdownState());
-                    dropdown.prop = prop;
+                    dropdown.onSelected += (x =>
+                    {
+                        SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
+                        Type t = Type.GetType(x);
+                        newAction.managedReferenceValue = Activator.CreateInstance(t);
+                    });
                     dropdown.Show(selectionRect);
                 }  
             }
@@ -48,7 +53,9 @@ namespace DI_Sequences
 
         class ActionsDropdown : AdvancedDropdown
         {
-            public SerializedProperty prop;
+            public delegate void OnSelected(string item);
+            public OnSelected onSelected;
+
             public ActionsDropdown(AdvancedDropdownState state) : base(state)
             { }
 
@@ -69,9 +76,8 @@ namespace DI_Sequences
 
                 Debug.Log("Selected " + item.name);
                 Debug.Log("ID: " + item.id);
-                SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
-                Type t = Type.GetType(item.name);
-                newAction.managedReferenceValue = Activator.CreateInstance(t);
+
+                onSelected?.Invoke(item.name);
             }
         }
     }
