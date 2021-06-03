@@ -67,6 +67,8 @@ namespace DI_Sequences
             {
                 base.ItemSelected(item);
 
+                Debug.Log("Selected " + item.name);
+                Debug.Log("ID: " + item.id);
                 SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
                 Type t = Type.GetType(item.name);
                 newAction.managedReferenceValue = Activator.CreateInstance(t);
