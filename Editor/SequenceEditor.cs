@@ -49,7 +49,7 @@ namespace DI_Sequences
             foreach (var s in toAdd)
             {
                 SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
-                Type t = Type.GetType(s);
+                Type t = GetTypesAdvanced(s);
                 if (t == null)
                 {
                     Debug.LogError($"Type creation attempt from {s} resulted in null type.");
@@ -60,6 +60,24 @@ namespace DI_Sequences
             }
             toAdd.Clear();
         }
+
+        public Type GetTypesAdvanced (string fullName)
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            for (int i = 0; i < assemblies.Length; i++)
+            {
+                var types = assemblies[i].GetTypes();
+                foreach (var t in types)
+                {
+                    if (t.FullName == fullName)
+                    {
+                        return t;
+                    }
+                }
+            }
+            return null;
+        }
+
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             SerializedProperty prop = property.FindPropertyRelative("actions");
