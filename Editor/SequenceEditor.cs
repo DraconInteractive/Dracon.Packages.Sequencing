@@ -14,6 +14,7 @@ namespace DI_Sequences
     [CustomPropertyDrawer(typeof(Sequence))]
     public class SequenceDrawer : PropertyDrawer
     {
+        List<string> toAdd = new List<string>();
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
@@ -33,17 +34,26 @@ namespace DI_Sequences
                     var dropdown = new ActionsDropdown(new AdvancedDropdownState());
                     dropdown.onSelected += (x =>
                     {
+                        toAdd.Add(x);
                     });
-                    SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
-                    //Type t = Type.GetType(x);
-                    newAction.managedReferenceValue = new DebugAction();
+                    
                     dropdown.Show(selectionRect);
                 }  
             }
-
+            AddFromQueue(prop);
             EditorGUI.EndProperty();
         }
 
+        public void AddFromQueue (SerializedProperty prop)
+        {
+            foreach (var s in toAdd)
+            {
+                SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
+                Type t = Type.GetType(s);
+                newAction.managedReferenceValue = Activator.CreateInstance(t);
+            }
+            toAdd.Clear();
+        }
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             SerializedProperty prop = property.FindPropertyRelative("actions");
