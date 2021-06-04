@@ -216,4 +216,36 @@ namespace DI_Sequences
             Complete();
         }
     }
+    
+    [Serializable]
+    public class ToggleGameObjectAction : SequenceAction
+    {
+        public enum Mode {
+            Toggle,
+            ToggleOn,
+            ToggleOff
+        }
+        
+        public Mode mode;
+        public GameObject target;
+        
+        public ToggleGameObjectAction () {
+            name = "Toggle GameObject";
+        }
+        
+        public override void Run () {
+            switch (mode)
+            {
+                case Mode.Toggle:
+                    target.SetActive(!target.activeSelf);
+                    break;
+                case Mode.ToggleOn:
+                    target.SetActive(true);
+                    break;
+                case Mode.ToggleOff:
+                    target.SetActive(false);
+                    break
+            }
+        }
+    }
 }
