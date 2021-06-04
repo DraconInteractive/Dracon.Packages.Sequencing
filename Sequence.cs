@@ -246,6 +246,22 @@ namespace DI_Sequences
                     target.SetActive(false);
                     break
             }
+            Complete();
+        }
+    }
+    
+    [Serializable]
+    public class PlayAnimatorStateAction : SequenceAction
+    {
+        public Animator _animator;
+        public string _state;
+        
+        public PlayAnimatorStateAction () {
+            name = "Play Animator State";
+        }
+        
+        public override void Run () {
+            _animator.Play(_state);
         }
     }
 }
