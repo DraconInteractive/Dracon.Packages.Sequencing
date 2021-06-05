@@ -14,7 +14,7 @@ namespace DI_Sequences
     [CustomPropertyDrawer(typeof(Sequence))]
     public class SequenceDrawer : PropertyDrawer
     {
-        List<string> toAdd = new List<string>();
+        Dictionary<string, string> toAdd = new Dictionary<string, string>();
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
@@ -35,22 +35,26 @@ namespace DI_Sequences
                     var dropdown = new ActionsDropdown(new AdvancedDropdownState());
                     dropdown.onSelected += (x =>
                     {
-                        toAdd.Add(x);
+                        toAdd.Add(label.text, x);
                     });
                     
                     dropdown.Show(selectionRect);
                 }  
             }
-            AddFromQueue(prop);
+            AddFromQueue(prop, label.text);
             EditorGUI.EndProperty();
         }
 
-        public void AddFromQueue (SerializedProperty prop)
+        public void AddFromQueue (SerializedProperty prop, string label)
         {
             foreach (var s in toAdd)
             {
+                if (s.Key != label)
+                {
+                    continue;
+                }
                 SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
-                Type t = GetTypesAdvanced(s);
+                Type t = GetTypesAdvanced(s.Value);
                 if (t == null)
                 {
                     Debug.LogError($"Type creation attempt from {s} resulted in null type.");
