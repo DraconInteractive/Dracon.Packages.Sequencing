@@ -14,7 +14,7 @@ namespace DI_Sequences
     [CustomPropertyDrawer(typeof(Sequence))]
     public class SequenceDrawer : PropertyDrawer
     {
-        Dictionary<int,string> toAdd = new Dictionary<int,string>();
+        List<string> toAdd = new List<string>();
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
@@ -23,7 +23,8 @@ namespace DI_Sequences
             
             float propHeight = EditorGUI.GetPropertyHeight(prop, true);
             Rect propRect = new Rect(position.x, position.y, position.width, propHeight);
-            
+
+            EditorGUILayout.TextField(label.text);
             EditorGUI.PropertyField(propRect, prop, true);
             if (prop.isExpanded)
             {
@@ -34,7 +35,7 @@ namespace DI_Sequences
                     var dropdown = new ActionsDropdown(new AdvancedDropdownState());
                     dropdown.onSelected += (x =>
                     {
-                        toAdd.Add(prop.objectReferenceInstanceIDValue, x);
+                        toAdd.Add(x);
                     });
                     
                     dropdown.Show(selectionRect);
@@ -46,21 +47,17 @@ namespace DI_Sequences
 
         public void AddFromQueue (SerializedProperty prop)
         {
-            
             foreach (var s in toAdd)
             {
-                if (s.Key == prop.objectReferenceInstanceIDValue)
+                SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
+                Type t = GetTypesAdvanced(s);
+                if (t == null)
                 {
-                    SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
-                    Type t = GetTypesAdvanced(s.Value);
-                    if (t == null)
-                    {
-                        Debug.LogError($"Type creation attempt from {s} resulted in null type.");
-                        newAction.managedReferenceValue = new SequenceAction();
-                        continue;
-                    }
-                    newAction.managedReferenceValue = Activator.CreateInstance(t);
+                    Debug.LogError($"Type creation attempt from {s} resulted in null type.");
+                    newAction.managedReferenceValue = new SequenceAction();
+                    continue;
                 }
+                newAction.managedReferenceValue = Activator.CreateInstance(t);
             }
             toAdd.Clear();
         }
@@ -95,7 +92,9 @@ namespace DI_Sequences
             public OnSelected onSelected;
 
             public ActionsDropdown(AdvancedDropdownState state) : base(state)
-            { }
+            {
+                
+            }
 
             protected override AdvancedDropdownItem BuildRoot()
             {
