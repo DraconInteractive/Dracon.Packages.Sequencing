@@ -264,4 +264,40 @@ namespace DI_Sequences
             _animator.Play(_state);
         }
     }
+
+    [Serializable]
+    public class SetAnimatorTriggerAction : SequenceAction
+    {
+        public Animator _animator;
+        public string _trigger;
+
+        public SetAnimatorTriggerAction ()
+        {
+            name = "Set Animator Trigger";
+        }
+
+        public override void Run()
+        {
+            _animator.SetTrigger(_trigger);
+            Complete();
+        }
+    }
+
+#if di_stats
+    [Serializable]
+    public class AddHealthAction : SequenceAction
+    {
+        public CharacterStats _stats;
+        public float _amount;
+
+        public AddHealthAction () {
+            name = "Add Health";
+        }
+
+        public override void Run () {
+            _stats.BuffHealth(_amount);
+            Complete();
+        }
+    }
+#endif
 }
