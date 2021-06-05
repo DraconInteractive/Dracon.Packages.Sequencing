@@ -24,7 +24,10 @@ namespace DI_Sequences
             float propHeight = EditorGUI.GetPropertyHeight(prop, true);
             Rect propRect = new Rect(position.x, position.y, position.width, propHeight);
 
-            EditorGUILayout.TextField(label.text);
+
+            string s = label.text;
+            Array.ForEach(toAdd.Keys.ToArray(), x => s += x + ", ");
+            EditorGUILayout.TextField(s);
             EditorGUI.PropertyField(propRect, prop, true);
             if (prop.isExpanded)
             {
