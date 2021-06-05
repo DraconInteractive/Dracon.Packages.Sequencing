@@ -34,7 +34,7 @@ namespace DI_Sequences
                     var dropdown = new ActionsDropdown(new AdvancedDropdownState());
                     dropdown.onSelected += (x =>
                     {
-                        toAdd.Add(label.text, x);
+                        toAdd.Add(x, label.text);
                     });
                     
                     dropdown.Show(selectionRect);
@@ -46,14 +46,15 @@ namespace DI_Sequences
 
         public void AddFromQueue (SerializedProperty prop, string label)
         {
-            foreach (var s in toAdd)
+            string[] keys = toAdd.Keys.ToArray();
+            foreach (var s in keys)
             {
-                if (s.Key != label)
+                if (toAdd[s] != label)
                 {
                     continue;
                 }
                 SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
-                Type t = GetTypesAdvanced(s.Value);
+                Type t = GetTypesAdvanced(s);
                 if (t == null)
                 {
                     Debug.LogError($"Type creation attempt from {s} resulted in null type.");
@@ -61,8 +62,8 @@ namespace DI_Sequences
                     continue;
                 }
                 newAction.managedReferenceValue = Activator.CreateInstance(t);
+                toAdd.Remove(s);
             }
-            toAdd.Clear();
         }
 
         public Type GetTypesAdvanced (string fullName)
