@@ -244,7 +244,7 @@ namespace DI_Sequences
                     break;
                 case Mode.ToggleOff:
                     target.SetActive(false);
-                    break
+                    break;
             }
             Complete();
         }
