@@ -14,13 +14,13 @@ namespace DI_Sequences
     [CustomPropertyDrawer(typeof(Sequence))]
     public class SequenceDrawer : PropertyDrawer
     {
-        List<string> toAdd = new List<string>();
+        Dictionary<int,string> toAdd = new Dictionary<int,string>();
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
 
             SerializedProperty prop = property.FindPropertyRelative("actions");
-
+            
             float propHeight = EditorGUI.GetPropertyHeight(prop, true);
             Rect propRect = new Rect(position.x, position.y, position.width, propHeight);
             
@@ -34,7 +34,7 @@ namespace DI_Sequences
                     var dropdown = new ActionsDropdown(new AdvancedDropdownState());
                     dropdown.onSelected += (x =>
                     {
-                        toAdd.Add(x);
+                        toAdd.Add(prop.objectReferenceInstanceIDValue, x);
                     });
                     
                     dropdown.Show(selectionRect);
@@ -46,17 +46,21 @@ namespace DI_Sequences
 
         public void AddFromQueue (SerializedProperty prop)
         {
+            
             foreach (var s in toAdd)
             {
-                SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
-                Type t = GetTypesAdvanced(s);
-                if (t == null)
+                if (s.Key == prop.objectReferenceInstanceIDValue)
                 {
-                    Debug.LogError($"Type creation attempt from {s} resulted in null type.");
-                    newAction.managedReferenceValue = new SequenceAction();
-                    continue;
+                    SerializedProperty newAction = prop.GetArrayElementAtIndex(prop.arraySize++);
+                    Type t = GetTypesAdvanced(s.Value);
+                    if (t == null)
+                    {
+                        Debug.LogError($"Type creation attempt from {s} resulted in null type.");
+                        newAction.managedReferenceValue = new SequenceAction();
+                        continue;
+                    }
+                    newAction.managedReferenceValue = Activator.CreateInstance(t);
                 }
-                newAction.managedReferenceValue = Activator.CreateInstance(t);
             }
             toAdd.Clear();
         }
