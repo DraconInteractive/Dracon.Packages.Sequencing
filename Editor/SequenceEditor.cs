@@ -24,16 +24,12 @@ namespace DI_Sequences
             float propHeight = EditorGUI.GetPropertyHeight(prop, true);
             Rect propRect = new Rect(position.x, position.y, position.width, propHeight);
 
-
-            string s = label.text;
-            Array.ForEach(toAdd.Keys.ToArray(), x => s += x + ", ");
-            EditorGUILayout.TextField(s);
             EditorGUI.PropertyField(propRect, prop, true);
             if (prop.isExpanded)
             {
                 Rect selectionRect = new Rect(position.x, position.y + propHeight + EditorGUIUtility.standardVerticalSpacing, position.width, 50);
 
-                if (GUI.Button(selectionRect, new GUIContent("Add Sequence"), EditorStyles.toolbarButton))
+                if (GUI.Button(selectionRect, new GUIContent("Add Sequence - " + toAdd.Count), EditorStyles.toolbarButton))
                 {
                     var dropdown = new ActionsDropdown(new AdvancedDropdownState());
                     dropdown.onSelected += (x =>
