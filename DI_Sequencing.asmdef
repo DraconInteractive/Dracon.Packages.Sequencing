@@ -1,4 +1,3 @@
 {
-	"name": "DI_Sequencing",
-	"dependencies": ["com.dracon.statistics"]
+	"name": "DI_Sequencing"
 }

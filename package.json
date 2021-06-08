@@ -1,7 +1,7 @@
 {
   "name": "com.dracon.sequencing",
   "displayName": "Dracon Sequencing",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "unity": "2019.1",
   "description": "Sequenced actions system for timed actions and objectives",
   "keywords": [
@@ -10,5 +10,13 @@
     "level",
     "unity"
   ],
+  "dependencies": {
+    "com.dracon.statistics" : "0.0.7"
+  },
+  "author": {
+    "name": "Dracon Interactive",
+    "email": "draconinteractive@gmail.com",
+    "url": "http://www.draconinteractive.com.au"
+  },
   "category": "Unity"
 }
