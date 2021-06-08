@@ -1,4 +1,4 @@
 {
 	"name": "DI_Sequencing",
-	"references": ["DI_Statistics"]
+	"dependencies": ["com.dracon.statistics"]
 }
