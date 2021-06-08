@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+#if di_stats
+using DI_Statistics;
+#endif
 
 namespace DI_Sequences
 {
