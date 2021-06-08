@@ -1,3 +1,4 @@
 {
-	"name": "DI_Sequencing"
+	"name": "DI_Sequencing",
+	"references": ["DI_Statistics"]
 }
