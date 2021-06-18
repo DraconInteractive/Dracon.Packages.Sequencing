@@ -294,7 +294,7 @@ namespace DI_Sequences
 
         public FadeInAudioAction ()
         {
-            name = "Fade In Audio"
+            name = "Fade In Audio";
         }
 
         public override void Run()
