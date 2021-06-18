@@ -34,6 +34,10 @@ namespace DI_Sequences
                     var dropdown = new ActionsDropdown(new AdvancedDropdownState());
                     dropdown.onSelected += (x =>
                     {
+                        if (toAdd.ContainsKey(x))
+                        {
+                            toAdd.Remove(x);
+                        }
                         toAdd.Add(x, label.text);
                     });
                     
@@ -43,6 +47,7 @@ namespace DI_Sequences
             AddFromQueue(prop, label.text);
             EditorGUI.EndProperty();
         }
+
 
         public void AddFromQueue (SerializedProperty prop, string label)
         {
