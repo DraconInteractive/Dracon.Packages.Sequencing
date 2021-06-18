@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,9 @@ namespace DI_Sequences
     public class SequenceManager : MonoBehaviour
     {
         public static List<SequenceManager> All = new List<SequenceManager>();
+        public static SequenceManager WithID(string _ID) => All.Where(x => x.ID == _ID).FirstOrDefault();
+
+        public string ID;
 
         public List<Sequence> sequences = new List<Sequence>();
 
