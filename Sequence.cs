@@ -283,5 +283,38 @@ namespace DI_Sequences
         }
     }
 
+    [Serializable]
+    public class FadeInAudioAction : SequenceAction
+    {
+        public AudioSource _source;
+        public float duration;
+        public float targetVolume;
 
+        public bool playOnStart;
+
+        public FadeInAudioAction ()
+        {
+            name = "Fade In Audio"
+        }
+
+        public override void Run()
+        {
+            SequenceManager.All[0].StartCoroutine(RunRoutine());
+            if (playOnStart)
+            {
+                _source.Play();
+            }
+        }
+
+        IEnumerator RunRoutine ()
+        {
+            for (float f = 0; f < 1; f += Time.deltaTime / duration)
+            {
+                _source.volume = Mathf.Lerp(0, targetVolume, f);
+                yield return null;
+            }
+            Complete();
+            yield break;
+        }
+    }
 }
